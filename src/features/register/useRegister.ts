@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const useRegister = () => {
   const router = useRouter();
@@ -23,10 +24,18 @@ export const useRegister = () => {
           body: JSON.stringify({ name, email, password }),
         });
 
-        return await res.json();
+        const data = await res.json();
+
+        // Add this check to manually throw errors
+        if (!res.ok || data.error || data.success === false) {
+          throw new Error(data.error || data.message || "Registration failed");
+        }
+
+        return data;
       },
-      onError: (error) => {
-        console.log("Error:", error);
+      onError: (error: Error) => {
+        console.log("Error caught:", error.message);
+        toast.error(error.message);
       },
       onSuccess: () => {
         router.push("/verify-otp?userType=student");

@@ -1,7 +1,7 @@
 export async function POST(request: Request) {
   const { name, email, password } = await request.json();
 
-  // Call your Express backend
+  // Your intentional error setup
   const res = await fetch(
     `${process.env.BACK_END_URL}/users/student/register`,
     {
@@ -15,8 +15,14 @@ export async function POST(request: Request) {
 
   const data = await res.json();
 
-  return new Response(JSON.stringify(data), {
-    status: res.status,
-    headers: { "Content-Type": "application/json" },
-  });
+  // Return error status instead of 200
+  if (!res.ok) {
+    console.log(data.message);
+    return new Response(
+      JSON.stringify({ error: "Registration failed", message: data.message }),
+      { status: 400 }, // This will trigger onError
+    );
+  }
+
+  return new Response(JSON.stringify(data));
 }

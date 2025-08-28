@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@/styles/globals.css";
 import { Montserrat } from "next/font/google";
 import TanstackQueryProvider from "@/providers/tansatck-query-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${montserrat.className} antialiased`}>
         <TanstackQueryProvider>{children}</TanstackQueryProvider>
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );
