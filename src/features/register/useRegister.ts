@@ -33,9 +33,8 @@ export const useRegister = () => {
 
         return data;
       },
-      onError: (error: Error) => {
-        console.log("Error caught:", error.message);
-        toast.error(error.message);
+      onError: () => {
+        toast.error("Registration failed");
       },
       onSuccess: () => {
         router.push("/verify-otp?userType=student");

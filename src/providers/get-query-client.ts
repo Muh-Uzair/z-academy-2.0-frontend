@@ -4,7 +4,16 @@ function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 60 * 1000,
+        // Cache settings
+        staleTime: 60 * 1000, // 1 min fresh
+
+        // Retry failed requests only once (default is 3)
+        retry: 1,
+
+        // Avoid extra re-fetches
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        refetchOnMount: false, // optional: avoids extra mount refetch
       },
     },
   });

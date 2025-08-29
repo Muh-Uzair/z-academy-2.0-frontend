@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const useVerifyOtp = () => {
   const router = useRouter();
@@ -12,6 +13,7 @@ export const useVerifyOtp = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ otp }),
+        credentials: "include",
       });
 
       if (!res.ok) {
@@ -20,18 +22,14 @@ export const useVerifyOtp = () => {
 
       return await res.json();
     },
-    onError: (error) => {
-      console.log("Error:", error);
+    onError: () => {
+      toast.error("Verification failed");
     },
     onSuccess: (data) => {
       const { jwt } = data?.data;
-      if (jwt) {
-        localStorage.setItem("jwt", jwt);
-        console.log("JWT stored successfully"); // Debug log
-        router.push("/dashboard/student/home");
-      } else {
-        console.error("No JWT token received from server");
-      }
+
+      localStorage.setItem("jwt", jwt);
+      router.push("/dashboard/student/home");
     },
   });
 

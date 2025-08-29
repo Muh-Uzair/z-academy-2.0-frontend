@@ -1,6 +1,13 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@theme {
+  --breakpoint-tab: 600px;
+  --breakpoint-laptopS: 900px;
+  --breakpoint-laptopM: 1500px;
+  --breakpoint-laptopL: 1900px;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -133,7 +140,6 @@
 
 body {
 }
-
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,

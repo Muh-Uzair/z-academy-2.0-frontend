@@ -31,7 +31,7 @@ const VerifyOtp: React.FC = () => {
 
   // JSX
   return (
-    <div className="bg-muted/30 flex h-screen items-center justify-center">
+    <div className="bg-muted/30 flex h-screen items-center justify-center p-3">
       <Card className="w-full max-w-md rounded-2xl shadow-lg">
         <CardHeader className="space-y-2 text-center">
           <CardTitle className="text-2xl font-bold">Verify OTP</CardTitle>
