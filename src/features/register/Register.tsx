@@ -48,10 +48,34 @@ const studentFromSchema = z
     path: ["confirmPassword"],
   });
 
+const instructorFormSchema = z
+  .object({
+    name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+    email: z
+      .string()
+      .email({ message: "Please enter a valid email address." })
+      .regex(/^[a-zA-Z0-9._%+-]+@gmail\.com$/, {
+        message: "Only Gmail addresses are allowed.",
+      }),
+    password: z.string().min(6, {
+      message: "Password must be at least 6 characters long.",
+    }),
+    confirmPassword: z.string().min(6, {
+      message: "Confirm password must be at least 6 characters long.",
+    }),
+    institute: z.string(),
+    specialization: z.string(),
+    experience: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match.",
+    path: ["confirmPassword"],
+  });
+
 // CMP CMP CMP
 const Register: React.FC = () => {
   // VARS
-  // 1. Define your form.
+
   const form = useForm<z.infer<typeof studentFromSchema>>({
     resolver: zodResolver(studentFromSchema),
     defaultValues: {
@@ -61,14 +85,32 @@ const Register: React.FC = () => {
       confirmPassword: "",
     },
   });
+  const instructorForm = useForm<z.infer<typeof instructorFormSchema>>({
+    resolver: zodResolver(instructorFormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      institute: "",
+      specialization: "",
+      experience: "0",
+    },
+  });
   const { mutateRegisterStudent, statusRegisterStudent } = useRegister();
 
-  // 2. Define a submit handler.
+  // FUNCTION
   function onSubmit(values: z.infer<typeof studentFromSchema>) {
     if (statusRegisterStudent === "pending") return;
 
     const { name, email, password } = values;
     mutateRegisterStudent({ name, email, password });
+  }
+
+  // FUNCTION handle submission of instructor
+  function onSubmitInstructor(values: z.infer<typeof instructorFormSchema>) {
+    console.log("Instructor");
+    console.log(values);
   }
 
   // FUNCTIONS
@@ -191,7 +233,128 @@ const Register: React.FC = () => {
                 <Button variant="link">Login</Button>
               </CardAction>
             </CardHeader>
-            <CardContent></CardContent>
+            <CardContent>
+              <Form {...instructorForm}>
+                <form
+                  onSubmit={instructorForm.handleSubmit(onSubmitInstructor)}
+                  className="space-y-3"
+                >
+                  <FormField
+                    control={instructorForm.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g, John" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={instructorForm.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g, user@gmail.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={instructorForm.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            placeholder="••••••••"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={instructorForm.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Confirm Password</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            placeholder="••••••••"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={instructorForm.control}
+                    name="institute"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Institute</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g, Stanford" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={instructorForm.control}
+                    name="specialization"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Specialization</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g, Computer Science"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={instructorForm.control}
+                    name="experience"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Experience In Years</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g, 18" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <section className="mt-6 flex flex-col gap-2">
+                    <Button type="submit" className="w-full">
+                      {statusRegisterStudent === "pending" && (
+                        <LoadingSpinner />
+                      )}
+                      Register
+                    </Button>
+                    <Button variant="outline" className="w-full">
+                      Register with Google
+                    </Button>
+                  </section>
+                </form>
+              </Form>
+            </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
