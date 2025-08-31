@@ -26,6 +26,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { useRegister } from "./useRegister";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { useRegisterInstructor } from "./useRegisterInstructor";
 
 const studentFromSchema = z
   .object({
@@ -98,6 +99,8 @@ const Register: React.FC = () => {
     },
   });
   const { mutateRegisterStudent, statusRegisterStudent } = useRegister();
+  const { mutateRegisterInstructor, statusRegisterInstructor } =
+    useRegisterInstructor();
 
   // FUNCTION
   function onSubmit(values: z.infer<typeof studentFromSchema>) {
@@ -111,6 +114,18 @@ const Register: React.FC = () => {
   function onSubmitInstructor(values: z.infer<typeof instructorFormSchema>) {
     console.log("Instructor");
     console.log(values);
+
+    const { name, email, password, institute, specialization, experience } =
+      values;
+
+    mutateRegisterInstructor({
+      name,
+      email,
+      password,
+      institute,
+      specialization,
+      experience,
+    });
   }
 
   // FUNCTIONS
@@ -343,7 +358,7 @@ const Register: React.FC = () => {
                   />
                   <section className="mt-6 flex flex-col gap-2">
                     <Button type="submit" className="w-full">
-                      {statusRegisterStudent === "pending" && (
+                      {statusRegisterInstructor === "pending" && (
                         <LoadingSpinner />
                       )}
                       Register

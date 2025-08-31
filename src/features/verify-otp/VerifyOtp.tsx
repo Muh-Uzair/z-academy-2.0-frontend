@@ -17,16 +17,31 @@ import {
 import { Button } from "@/components/ui/button";
 import { useVerifyOtp } from "./useVerifyOtp";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { useSearchParams } from "next/navigation";
+import { useVerifyOtpInstructor } from "./useVerifyOtpInstructor";
 
 const VerifyOtp: React.FC = () => {
   // VARS
   const [otp, setOtp] = React.useState("");
   const { mutateVerifyOtp, statusVerifyOtp } = useVerifyOtp();
+  const { mutateVerifyOtpInstructor, statusVerifyOtpInstructor } =
+    useVerifyOtpInstructor();
+  const searchParams = useSearchParams();
+  const userType = searchParams.get("userType");
+
+  console.log(userType);
 
   // FUNCTIONS
   const handleVerify = () => {
+    console.log("Hello");
     if (otp.length !== 6) return;
-    mutateVerifyOtp({ otp: parseInt(otp) });
+
+    if (userType === "instructor") {
+      mutateVerifyOtpInstructor({ otp: parseInt(otp) });
+    }
+    if (userType === "student") {
+      mutateVerifyOtp({ otp: parseInt(otp) });
+    }
   };
 
   // JSX
@@ -60,7 +75,8 @@ const VerifyOtp: React.FC = () => {
           </InputOTP>
 
           <Button className="w-full" onClick={handleVerify}>
-            {statusVerifyOtp === "pending" && <LoadingSpinner />}
+            {(statusVerifyOtp === "pending" ||
+              statusVerifyOtpInstructor === "pending") && <LoadingSpinner />}
             Verify Code
           </Button>
         </CardContent>
