@@ -220,19 +220,23 @@ const Register: React.FC = () => {
                       </FormItem>
                     )}
                   />
-                  <section className="mt-6 flex flex-col gap-2">
-                    <Button type="submit" className="w-full">
-                      {statusRegisterStudent === "pending" && (
-                        <LoadingSpinner />
-                      )}
-                      Register
-                    </Button>
-                    <Button variant="outline" className="w-full">
-                      Register with Google
-                    </Button>
-                  </section>
+
+                  <Button type="submit" className="w-full">
+                    {statusRegisterStudent === "pending" && <LoadingSpinner />}
+                    Register
+                  </Button>
                 </form>
               </Form>
+              <Button
+                onClick={() => {
+                  window.location.href =
+                    "http://localhost:4000/api/v1/users/google?userType=student";
+                }}
+                variant="outline"
+                className="mt-3 w-full"
+              >
+                Register with Google
+              </Button>
             </CardContent>
           </Card>
         </TabsContent>
@@ -356,19 +360,25 @@ const Register: React.FC = () => {
                       </FormItem>
                     )}
                   />
-                  <section className="mt-6 flex flex-col gap-2">
-                    <Button type="submit" className="w-full">
-                      {statusRegisterInstructor === "pending" && (
-                        <LoadingSpinner />
-                      )}
-                      Register
-                    </Button>
-                    <Button variant="outline" className="w-full">
-                      Register with Google
-                    </Button>
-                  </section>
+
+                  <Button type="submit" className="w-full">
+                    {statusRegisterInstructor === "pending" && (
+                      <LoadingSpinner />
+                    )}
+                    Register
+                  </Button>
                 </form>
               </Form>
+              <Button
+                onClick={() => {
+                  window.location.href =
+                    "http://localhost:4000/api/v1/users/google?userType=instructor";
+                }}
+                variant="outline"
+                className="mt-3 w-full"
+              >
+                Register with Google
+              </Button>
             </CardContent>
           </Card>
         </TabsContent>

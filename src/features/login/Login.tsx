@@ -54,8 +54,6 @@ const Login: React.FC = () => {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-
     const { email, password } = values;
     mutateLogin({ email, password });
   }
@@ -108,17 +106,23 @@ const Login: React.FC = () => {
                   </FormItem>
                 )}
               />
-              <section className="mt-6 flex flex-col gap-2">
-                <Button type="submit" className="w-full">
-                  {statusLogin === "pending" && <LoadingSpinner />}
-                  Login
-                </Button>
-                <Button variant="outline" className="w-full">
-                  Login with Google
-                </Button>
-              </section>
+
+              <Button type="submit" className="w-full">
+                {statusLogin === "pending" && <LoadingSpinner />}
+                Login
+              </Button>
             </form>
           </Form>
+          <Button
+            onClick={() => {
+              window.location.href =
+                "http://localhost:4000/api/v1/users/google?login=true";
+            }}
+            variant="outline"
+            className="mt-3 w-full"
+          >
+            Login with Google
+          </Button>
         </CardContent>
       </Card>
     </div>

@@ -41,7 +41,7 @@ export const useLogin = () => {
         router.push("/dashboard/student/home");
       }
       if (data?.data?.user?.userType === "instructor") {
-        router.push("/dashboard/student/home");
+        router.push("/dashboard/instructor/home");
       }
     },
   });
