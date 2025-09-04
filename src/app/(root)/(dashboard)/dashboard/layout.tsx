@@ -19,7 +19,7 @@ export default function Layout({
         <span className="text-primary-extra-dark font-extrabold">zAcademy</span>
       </header>
       <div className="bg-primary-extra-light/10 tab:pb-0 tab:pt-0 tab:pl-[90px] laptopM:pl-[220px] h-screen w-full pt-[50px] pb-[50px]">
-        <div className="h-full w-full">{children}</div>
+        <div className="h-full w-full px-3">{children}</div>
       </div>
       <DashboardSidebar />
       <DashboardBottomNav />

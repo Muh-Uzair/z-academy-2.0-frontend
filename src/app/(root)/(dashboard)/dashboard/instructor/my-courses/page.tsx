@@ -1,3 +1,4 @@
+import InstructorMyCourses from "@/features/instructor-my-courses/InstructorMyCourses";
 import React from "react";
 
 const page: React.FC = () => {
@@ -6,7 +7,7 @@ const page: React.FC = () => {
   // FUNCTIONS
 
   // JSX
-  return <div>dashboard/instructor/my-courses</div>;
+  return <InstructorMyCourses />;
 };
 
 export default page;

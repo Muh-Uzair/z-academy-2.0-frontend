@@ -59,14 +59,18 @@ const UserMenu: React.FC<Props> = ({ data }) => {
         <DropdownMenuContent className="m-3 w-56" align="start">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            {userType === "student" && (
+
+          {userType === "student" && (
+            <DropdownMenuItem>
               <Link href={"/dashboard/student/home"}>Dashboard</Link>
-            )}
-            {userType === "instructor" && (
+            </DropdownMenuItem>
+          )}
+          {userType === "instructor" && (
+            <DropdownMenuItem>
               <Link href={"/dashboard/instructor/home"}>Dashboard</Link>
-            )}
-          </DropdownMenuItem>
+            </DropdownMenuItem>
+          )}
+
           <DropdownMenuItem onClick={handleLogoutClick}>
             Logout
           </DropdownMenuItem>
