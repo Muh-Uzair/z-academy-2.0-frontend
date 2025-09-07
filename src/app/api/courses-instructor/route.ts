@@ -23,3 +23,25 @@ export async function POST(request: Request) {
     headers: new Headers(res.headers), // includes Set-Cookie
   });
 }
+
+export async function GET() {
+  const cookieStore = await cookies();
+  const jwt = cookieStore.get("jwt")?.value;
+
+  // Forward request to backend
+  const res = await fetch(`${process.env.BACK_END_URL}/courses/instructor`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${jwt}`,
+    },
+    credentials: "include", // important for cookies
+  });
+
+  // Stream backend response directly to client
+  return new Response(res.body, {
+    status: res.status,
+    statusText: res.statusText,
+    headers: new Headers(res.headers), // includes Set-Cookie
+  });
+}

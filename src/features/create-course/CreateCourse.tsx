@@ -49,41 +49,50 @@ const formSchema = z.object({
 
 export type CreateCourseFormValues = z.infer<typeof formSchema>;
 
-const CreateCourse: React.FC = () => {
+interface Props {
+  readOnly?: boolean;
+  receivedDefaultValues?: CreateCourseFormValues;
+}
+
+const CreateCourse: React.FC<Props> = ({ readOnly, receivedDefaultValues }) => {
   // VARS
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<CreateCourseFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      level: "beginner",
-      price: "0",
-      thumbnail: "",
-    },
+    defaultValues: readOnly
+      ? receivedDefaultValues
+      : {
+          title: "",
+          description: "",
+          level: "beginner",
+          price: "0",
+          thumbnail: "",
+        },
   });
   const { mutateCreateCourse, statueCreateCourse } = useCreateCourse();
 
   // FUNCTIONS
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Convert price to number before sending to backend
-    const formattedData: CreateCourseFormValues = {
-      ...values,
-      price: values.price,
-    };
-    mutateCreateCourse({ formData: formattedData });
+  function onSubmit(values: CreateCourseFormValues) {
+    if (readOnly) return; // block submission in readonly mode
+    mutateCreateCourse({ formData: values });
   }
 
   return (
     <div className="flex flex-col gap-8">
       <section className="pt-4">
-        <span className="text-xl font-bold">Create Course</span>
+        <span className="text-xl font-bold">
+          {readOnly ? "Your Course Information" : "Create Course"}
+        </span>
       </section>
 
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Enter course information</CardTitle>
+          <CardTitle>
+            {readOnly ? "Course Information" : "Enter course information"}
+          </CardTitle>
           <CardDescription>
-            Fill in the details of the course you want to create
+            {readOnly
+              ? "These are your course details."
+              : "Fill in the details of the course you want to create."}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -99,6 +108,7 @@ const CreateCourse: React.FC = () => {
                     <FormControl>
                       <Input
                         placeholder="e.g. Introduction to React"
+                        disabled={readOnly}
                         {...field}
                       />
                     </FormControl>
@@ -116,12 +126,12 @@ const CreateCourse: React.FC = () => {
                     <FormLabel>Description</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="You course description here"
+                        placeholder="Your course description here"
                         className="resize-none"
+                        disabled={readOnly}
                         {...field}
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
@@ -137,6 +147,7 @@ const CreateCourse: React.FC = () => {
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
+                      disabled={readOnly}
                     >
                       <FormControl>
                         <SelectTrigger className="w-full">
@@ -164,7 +175,12 @@ const CreateCourse: React.FC = () => {
                   <FormItem>
                     <FormLabel>Price (USD)</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="e.g. 100" {...field} />
+                      <Input
+                        type="number"
+                        placeholder="e.g. 100"
+                        disabled={readOnly}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -177,22 +193,39 @@ const CreateCourse: React.FC = () => {
                 name="thumbnail"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Thumbnail URL</FormLabel>
+                    <FormLabel>
+                      {" "}
+                      {readOnly ? "Thumbnail" : "Thumbnail URL"}{" "}
+                    </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="https://example.com/thumbnail.jpg"
-                        {...field}
-                      />
+                      {readOnly ? (
+                        <img
+                          className="rounded-md"
+                          src={receivedDefaultValues?.thumbnail}
+                        />
+                      ) : (
+                        <Input
+                          placeholder="https://example.com/thumbnail.jpg"
+                          disabled={readOnly}
+                          {...field}
+                        />
+                      )}
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <Button type="submit" className="w-full">
-                {statueCreateCourse === "pending" && <LoadingSpinner />}
-                Create
-              </Button>
+              {!readOnly && (
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={statueCreateCourse === "pending"}
+                >
+                  {statueCreateCourse === "pending" && <LoadingSpinner />}
+                  Create
+                </Button>
+              )}
             </form>
           </Form>
         </CardContent>
