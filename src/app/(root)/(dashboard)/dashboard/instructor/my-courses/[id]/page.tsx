@@ -14,7 +14,7 @@ const Page: React.FC<Props> = async ({ params }) => {
 
   // FUNCTIONS
   queryClient.prefetchQuery({
-    queryKey: ["allCourses"],
+    queryKey: ["courseOnId"],
     queryFn: async () => getCourseOid(id),
   });
 

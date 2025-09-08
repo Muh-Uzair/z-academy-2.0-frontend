@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@/styles/globals.css";
 import DashboardBottomNav from "@/components/DashboardBottomNav";
 import DashboardSidebar from "@/components/DashboardSidebar";
+import DashboardHeader from "@/components/DashboardHeader";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,9 +16,7 @@ export default function Layout({
 }>) {
   return (
     <div>
-      <header className="tab:hidden fixed top-0 right-0 left-0 z-10 flex h-[50px] items-center justify-start bg-white p-3">
-        <span className="text-primary-extra-dark font-extrabold">zAcademy</span>
-      </header>
+      <DashboardHeader />
       <div className="bg-primary-extra-light/10 tab:pb-0 tab:pt-0 tab:pl-[90px] laptopM:pl-[220px] h-screen w-full pt-[50px] pb-[50px]">
         <div className="h-full w-full px-3">{children}</div>
       </div>

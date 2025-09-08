@@ -22,7 +22,7 @@ const DashboardBottomNav: React.FC = () => {
   // JSX
   return (
     <nav className="tab:hidden block">
-      <ul className="fixed right-0 bottom-0 left-0 z-10 flex h-[50px] items-center justify-evenly bg-white p-3">
+      <ul className="fixed right-0 bottom-0 left-0 z-10 flex h-[50px] items-center justify-evenly border border-t bg-white p-3">
         {navArr.map((item: INavItem) => {
           const Icon = item.icon;
           const active = isActive(item.url);

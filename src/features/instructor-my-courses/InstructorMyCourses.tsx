@@ -21,9 +21,6 @@ const InstructorMyCourses: React.FC = () => {
   // VARS
   const { dataAllCourses, statusAllCourses } = useGetAllCourses();
 
-  console.log(statusAllCourses);
-  console.log(dataAllCourses?.data?.courses);
-
   // FUNCTIONS
 
   // JSX
@@ -32,7 +29,7 @@ const InstructorMyCourses: React.FC = () => {
     return <LoadingScreen />;
   }
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex h-screen flex-col gap-8 overflow-y-scroll">
       <section className="pt-4">
         <span className="text-xl font-bold">My Courses</span>
       </section>

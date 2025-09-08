@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { getCurrUser } from "@/services/getCurrUser";
 import UserMenu from "./UserMenu";
+import ZAcademyLogo from "./ZAcademyLogo";
 
 // CMP CMP CMP
 export const LandingPageHeader: React.FC = () => {
@@ -19,7 +20,9 @@ export const LandingPageHeader: React.FC = () => {
   // JSX
   return (
     <header className="fixed top-0 right-0 left-0 flex h-[50px] w-full items-center justify-between px-3">
-      <div>Logo</div>
+      <div>
+        <ZAcademyLogo />
+      </div>
 
       <div className="laptopM:flex hidden">buttons</div>
 
