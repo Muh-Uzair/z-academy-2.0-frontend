@@ -10,7 +10,11 @@ const PageHeading: React.FC<Props> = ({ heading }) => {
   // FUNCTIONS
 
   // JSX
-  return <span className="text-xl font-bold">{heading}</span>;
+  return (
+    <div className="py-5">
+      <span className="text-xl font-bold">{heading}</span>
+    </div>
+  );
 };
 
 export default PageHeading;

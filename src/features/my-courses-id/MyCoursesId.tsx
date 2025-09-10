@@ -28,26 +28,28 @@ const MyCoursesId: React.FC<Props> = ({ id }) => {
 
   if (statusCourseOnId === "success" && dataCourseOnId?.data?.course) {
     return (
-      <div className="flex h-screen flex-col gap-5 overflow-y-scroll pt-5">
-        <section>
-          <PageHeading heading="Course Details" />
-        </section>
-        <section className="flex items-center justify-end">
-          <Button
-            variant={editMyCourse ? "default" : "outline"}
-            onClick={() => setEditMyCourse((prev) => !prev)}
-          >
-            <Pen />
-            Edit
-          </Button>
-        </section>
-        <section>
-          <CreateCourse
-            readOnly={true}
-            receivedDefaultValues={dataCourseOnId.data.course}
-            editMyCourse={editMyCourse}
-          />
-        </section>
+      <div className="flex w-full justify-center">
+        <div className="flex w-full max-w-[800px] flex-col gap-5 pt-5">
+          <section>
+            <PageHeading heading="Course Details" />
+          </section>
+          <section className="flex items-center justify-end">
+            <Button
+              variant={editMyCourse ? "default" : "outline"}
+              onClick={() => setEditMyCourse((prev) => !prev)}
+            >
+              <Pen />
+              Edit
+            </Button>
+          </section>
+          <section>
+            <CreateCourse
+              readOnly={true}
+              receivedDefaultValues={dataCourseOnId.data.course}
+              editMyCourse={editMyCourse}
+            />
+          </section>
+        </div>
       </div>
     );
   }

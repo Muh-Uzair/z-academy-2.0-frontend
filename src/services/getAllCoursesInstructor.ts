@@ -1,5 +1,5 @@
-export const getAllCourses = async () => {
-  const res = await fetch("/api/courses", {
+export const getAllCoursesInstructor = async () => {
+  const res = await fetch("/api/courses-instructor", {
     method: "GET",
   });
 

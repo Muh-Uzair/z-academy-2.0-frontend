@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { instructorNavBarArr } from "@/utils/constants";
+import { instructorNavBarArr, studentNavBarArr } from "@/utils/constants";
 import { INavItem } from "@/types/constant-types";
 import clsx from "clsx";
 import { Brain } from "lucide-react";
@@ -13,7 +13,7 @@ const DashboardSidebar: React.FC = () => {
   const pathname = usePathname();
   const userType = pathname.split("/")[2];
   const navArr: INavItem[] | [] =
-    userType === "instructor" ? instructorNavBarArr : [];
+    userType === "instructor" ? instructorNavBarArr : studentNavBarArr;
 
   // FUNCTIONS
   const isActive = (url: string) => {

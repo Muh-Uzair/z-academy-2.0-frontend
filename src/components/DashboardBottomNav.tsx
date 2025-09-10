@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { instructorNavBarArr } from "@/utils/constants";
+import { instructorNavBarArr, studentNavBarArr } from "@/utils/constants";
 import { INavItem } from "@/types/constant-types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,11 +11,10 @@ const DashboardBottomNav: React.FC = () => {
   const pathname = usePathname();
   const userType = pathname.split("/")[2];
   const navArr: INavItem[] | [] =
-    userType === "instructor" ? instructorNavBarArr : [];
+    userType === "instructor" ? instructorNavBarArr : studentNavBarArr;
 
   // FUNCTIONS
   const isActive = (url: string) => {
-    // normalize paths: /dashboard/student matches /dashboard/student/123
     return pathname.startsWith(url);
   };
 

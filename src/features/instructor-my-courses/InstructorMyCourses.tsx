@@ -30,7 +30,7 @@ const InstructorMyCourses: React.FC = () => {
   }
   return (
     <div className="flex w-full justify-center">
-      <div className="flex w-full max-w-[1200px] flex-col gap-8">
+      <div className="flex h-screen w-full max-w-[1200px] flex-col gap-8">
         <section className="pt-4">
           <span className="text-xl font-bold">My Courses</span>
         </section>
