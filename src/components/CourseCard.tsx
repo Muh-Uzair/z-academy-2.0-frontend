@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+
 "use client";
 
 import React from "react";
@@ -10,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "./ui/badge";
 
 interface Props {
   course: {
@@ -24,17 +27,21 @@ interface Props {
       institute: string;
     };
   };
+  badgeVariant: "success" | "default" | "secondary" | "beginner" | "outline";
 }
 
-const CourseCard: React.FC<Props> = ({ course }) => {
+const CourseCard: React.FC<Props> = ({ course, badgeVariant }) => {
   console.log(course);
   return (
-    <Card className="w-full max-w-sm rounded-2xl shadow-md transition hover:shadow-lg">
+    <Card
+      key={course._id}
+      className="w-full shadow-md transition hover:shadow-lg"
+    >
       <CardHeader>
         <img
           src={course.thumbnail}
           alt={course.title}
-          className="h-48 w-full rounded-xl object-cover"
+          className="tab:h-[260px] laptopM:h-[200px] h-[200px] w-full rounded-xl object-cover"
         />
         <CardTitle className="mt-3 text-lg font-semibold">
           {course.title}
@@ -45,15 +52,15 @@ const CourseCard: React.FC<Props> = ({ course }) => {
       </CardHeader>
 
       <CardContent>
-        <div className="text-muted-foreground flex justify-between text-sm">
-          <span>
-            Level: <b>{course.level}</b>
-          </span>
-          <span>
+        <div className="flex items-center justify-between">
+          <Badge variant={badgeVariant} className="capitalize">
+            {course.level}
+          </Badge>
+          <span className="text-sm">
             Price: <b>${course.price}</b>
           </span>
         </div>
-        <p className="mt-2 text-sm">
+        <p className="text-muted-foreground mt-2 text-sm">
           Instructor: <b>{course.instructorId?.name || "Unknown"}</b>
           {" • "}
           {course.instructorId?.institute || ""}
