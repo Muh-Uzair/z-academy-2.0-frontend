@@ -1,12 +1,27 @@
+import { getQueryClient } from "@/providers/get-query-client";
+import { getCourseOnId } from "@/services/getCourseOnId";
+import CourseDetails from "@/features/course-details/CourseDetails";
 import React from "react";
 
-const Page: React.FC = () => {
+interface Props {
+  params: Promise<{ id: string }>;
+}
+
+const Page: React.FC<Props> = async ({ params }) => {
   // VARS
+  const { id } = await params;
+  const queryClient = getQueryClient();
+
+  // FUNCTIONS
+  queryClient.prefetchQuery({
+    queryKey: ["courseOnId"],
+    queryFn: async () => getCourseOnId(id),
+  });
 
   // FUNCTIONS
 
   // JSX
-  return <div>course details</div>;
+  return <CourseDetails id={id} />;
 };
 
 export default Page;

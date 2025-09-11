@@ -1,4 +1,4 @@
-export const getCourseOid = async (id: string) => {
+export const getCourseOnId = async (id: string) => {
   const res = await fetch(`/api/courses/${id}`, {
     method: "GET",
   });

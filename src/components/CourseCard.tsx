@@ -31,7 +31,6 @@ interface Props {
 }
 
 const CourseCard: React.FC<Props> = ({ course, badgeVariant }) => {
-  console.log(course);
   return (
     <Card
       key={course._id}
@@ -46,9 +45,6 @@ const CourseCard: React.FC<Props> = ({ course, badgeVariant }) => {
         <CardTitle className="mt-3 text-lg font-semibold">
           {course.title}
         </CardTitle>
-        <p className="text-muted-foreground line-clamp-2 text-sm">
-          {course.description}
-        </p>
       </CardHeader>
 
       <CardContent>
