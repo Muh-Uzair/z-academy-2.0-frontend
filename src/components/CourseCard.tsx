@@ -32,10 +32,7 @@ interface Props {
 
 const CourseCard: React.FC<Props> = ({ course, badgeVariant }) => {
   return (
-    <Card
-      key={course._id}
-      className="w-full shadow-md transition hover:shadow-lg"
-    >
+    <Card key={course._id} className="shadow-md transition hover:shadow-lg">
       <CardHeader>
         <img
           src={course.thumbnail}

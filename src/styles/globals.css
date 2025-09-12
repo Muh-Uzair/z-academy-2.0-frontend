@@ -139,6 +139,7 @@
 }
 
 body {
+  background-color: oklch(76.885% 0.13069 293.571 / 0.1);
 }
 
 input:-webkit-autofill,

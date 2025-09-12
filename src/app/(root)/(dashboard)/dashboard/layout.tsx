@@ -17,7 +17,7 @@ export default function Layout({
   return (
     <div>
       <DashboardHeader />
-      <div className="bg-primary-extra-light/10 tab:pb-0 tab:pt-0 tab:pl-[90px] laptopM:pl-[220px] flex w-full justify-center pt-[50px] pb-[50px]">
+      <div className="tab:pb-[12px] tab:pt-0 tab:pl-[90px] laptopM:pl-[220px] flex w-full justify-center pt-[50px] pb-[62px]">
         <div className="tab:px-[50px] h-full w-full px-3">{children}</div>
       </div>
       <DashboardSidebar />

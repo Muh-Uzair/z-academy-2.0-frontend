@@ -48,8 +48,6 @@ const CourseDetails: React.FC<Props> = ({ id }) => {
   const course: ICourse = dataCourseOnId?.data?.course;
   const { mutateEnrollment, statusEnrollment } = useEnrollment();
 
-  console.log(id);
-
   // FUNCTIONS
 
   const enroll = () => {

@@ -1,6 +1,6 @@
 import MyCoursesId from "@/features/my-courses-id/MyCoursesId";
 import { getQueryClient } from "@/providers/get-query-client";
-import { getCourseOid } from "@/services/getCourseOnId";
+import { getCourseOnId } from "@/services/getCourseOnId";
 import React from "react";
 
 interface Props {
@@ -15,7 +15,7 @@ const Page: React.FC<Props> = async ({ params }) => {
   // FUNCTIONS
   queryClient.prefetchQuery({
     queryKey: ["courseOnId"],
-    queryFn: async () => getCourseOid(id),
+    queryFn: async () => getCourseOnId(id),
   });
 
   // FUNCTIONS

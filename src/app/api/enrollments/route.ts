@@ -5,7 +5,6 @@ export async function POST(request: Request) {
   const cookieStore = await cookies();
   const jwt = cookieStore.get("jwt")?.value;
 
-  // Your intentional error setup
   const res = await fetch(`${process.env.BACK_END_URL}/enrollments`, {
     method: "POST",
     headers: {
@@ -16,16 +15,25 @@ export async function POST(request: Request) {
     credentials: "include",
   });
 
-  // Return error status instead of 200
+  // If backend returned error, forward it to client
   if (!res.ok) {
-    return new Response(JSON.stringify({ error: "Registration failed" }), {
-      status: 400,
+    const errorBody = await res.text(); // use text() to handle both JSON and plain text
+    return new Response(errorBody, {
+      status: res.status,
+      statusText: res.statusText,
+      headers: {
+        "Content-Type": res.headers.get("content-type") || "application/json",
+      },
     });
   }
 
-  return new Response(res.body, {
+  // Forward success response
+  const body = await res.text(); // again, use text() to avoid stream lock
+  return new Response(body, {
     status: res.status,
     statusText: res.statusText,
-    headers: new Headers(res.headers),
+    headers: {
+      "Content-Type": res.headers.get("content-type") || "application/json",
+    },
   });
 }

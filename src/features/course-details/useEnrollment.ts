@@ -6,11 +6,16 @@ export const useEnrollment = () => {
     mutationFn: async ({ courseId }: { courseId: string }) => {
       const res = await fetch("/api/enrollments", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ courseId }),
       });
 
       if (!res.ok) {
-        throw new Error("Unable to enroll into course");
+        const errorData = await res.json().catch(() => ({})); // fallback in case response isn’t JSON
+
+        throw new Error(errorData?.message || "Unable to enroll into course");
       }
 
       return await res.json();
@@ -18,8 +23,12 @@ export const useEnrollment = () => {
     onSuccess: () => {
       toast.success("Enrollment successful");
     },
-    onError: () => {
-      toast.error("Enrollment unsuccessful");
+    onError: (error: unknown) => {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Enrollment unsuccessful");
+      }
     },
   });
 
