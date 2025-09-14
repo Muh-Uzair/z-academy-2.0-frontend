@@ -1,10 +1,9 @@
 import { cookies } from "next/headers";
+import { NextRequest } from "next/server";
 
 export async function GET() {
   const cookieStore = await cookies();
   const jwt = cookieStore.get("jwt")?.value;
-
-  console.log(jwt);
 
   const res = await fetch(
     `${process.env.BACK_END_URL}/users/instructor/profile`,
@@ -21,6 +20,41 @@ export async function GET() {
   // Agar backend se error aaya to wahi return karo
   if (!res.ok) {
     const errorMessage = await res.text(); // backend ka raw message
+    return new Response(errorMessage, {
+      status: res.status,
+      statusText: res.statusText,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  return new Response(res.body, {
+    status: res.status,
+    statusText: res.statusText,
+    headers: new Headers(res.headers),
+  });
+}
+
+export async function PATCH(request: NextRequest) {
+  const { formData } = await request.json();
+  const cookieStore = await cookies();
+  const jwt = cookieStore.get("jwt")?.value;
+
+  // Forward request to backend
+  const res = await fetch(
+    `${process.env.BACK_END_URL}/users/instructor/profile`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify(formData),
+      credentials: "include",
+    },
+  );
+
+  if (!res.ok) {
+    const errorMessage = await res.text(); // backend ka raw error
     return new Response(errorMessage, {
       status: res.status,
       statusText: res.statusText,
