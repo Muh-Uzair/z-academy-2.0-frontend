@@ -26,15 +26,20 @@ export const useRegister = () => {
 
         const data = await res.json();
 
-        // Add this check to manually throw errors
+        // Agar backend ne error bheja to throw karo
         if (!res.ok || data.error || data.success === false) {
           throw new Error(data.error || data.message || "Registration failed");
         }
 
         return data;
       },
-      onError: () => {
-        toast.error("Registration failed");
+      onError: (error: unknown) => {
+        console.log(error);
+        if (error instanceof Error) {
+          toast.error(error.message); // ✅ backend ka actual message
+        } else {
+          toast.error("Registration failed");
+        }
       },
       onSuccess: () => {
         router.push("/verify-otp?userType=student");

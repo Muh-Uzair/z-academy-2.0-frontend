@@ -5,7 +5,7 @@ export async function GET() {
   const jwt = cookieStore.get("jwt")?.value;
 
   // Call your Express backend
-  const res = await fetch(`${process.env.BACK_END_URL}/users/me`, {
+  const res = await fetch(`${process.env.BACK_END_URL}/auth/me`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

@@ -1,12 +1,28 @@
+// app/instructor-students/page.tsx
+import InstructorStudents from "@/features/instructor-students/InstructorStudents";
+import { getInstructorStudents } from "@/services/getInstructorStudents";
+
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import React from "react";
 
-const Page: React.FC = () => {
-  // VARS
+const Page = async () => {
+  const queryClient = new QueryClient();
 
-  // FUNCTIONS
+  // prefetch data on the server
+  await queryClient.prefetchQuery({
+    queryKey: ["studentOnInstructor"],
+    queryFn: getInstructorStudents,
+  });
 
-  // JSX
-  return <div>dashboard/instructor/students</div>;
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <InstructorStudents />
+    </HydrationBoundary>
+  );
 };
 
 export default Page;

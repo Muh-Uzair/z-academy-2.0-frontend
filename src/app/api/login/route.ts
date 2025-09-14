@@ -2,7 +2,7 @@ export async function POST(request: Request) {
   const { email, password } = await request.json();
 
   // Your intentional error setup
-  const res = await fetch(`${process.env.BACK_END_URL}/users/login`, {
+  const res = await fetch(`${process.env.BACK_END_URL}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

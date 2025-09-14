@@ -1,9 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export const useVerifyOtp = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { mutate: mutateVerifyOtp, status: statusVerifyOtp } = useMutation({
     mutationFn: async ({ otp }: { otp: number }) => {
@@ -25,10 +26,17 @@ export const useVerifyOtp = () => {
     onError: () => {
       toast.error("Verification failed");
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       const { jwt } = data?.data;
 
       localStorage.setItem("jwt", jwt);
+
+      // ✅ Force refetch immediately instead of waiting
+      await queryClient.refetchQueries({
+        queryKey: ["currUser"],
+        type: "active",
+      });
+
       router.push("/dashboard/student/home");
     },
   });

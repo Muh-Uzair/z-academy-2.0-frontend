@@ -3,7 +3,7 @@ export async function POST(request: Request) {
 
   // Forward request to backend
   const res = await fetch(
-    `${process.env.BACK_END_URL}/users/verify-otp?userType=student`,
+    `${process.env.BACK_END_URL}/auth/verify-otp?userType=student`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },

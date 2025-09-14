@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 
 interface Props {
-  setOpenDialog: Dispatch<SetStateAction<boolean>>;
+  setOpenDialog?: Dispatch<SetStateAction<boolean>>;
 }
 
 export const useLogout = ({ setOpenDialog }: Props) => {
@@ -23,7 +23,9 @@ export const useLogout = ({ setOpenDialog }: Props) => {
     },
     onSuccess: () => {
       // Close dialog
-      setOpenDialog(false);
+      if (setOpenDialog) {
+        setOpenDialog(false);
+      }
 
       // Invalidate the current user query
       queryClient.invalidateQueries({ queryKey: ["currUser"] });

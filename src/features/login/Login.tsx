@@ -27,12 +27,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { useLogin } from "./useLogin";
 
 const formSchema = z.object({
-  email: z
-    .string()
-    .email({ message: "Please enter a valid email address." })
-    .regex(/^[a-zA-Z0-9._%+-]+@gmail\.com$/, {
-      message: "Only Gmail addresses are allowed.",
-    }),
+  email: z.string().email({ message: "Please enter a valid email address." }),
   password: z.string().min(6, {
     message: "Password must be at least 6 characters long.",
   }),

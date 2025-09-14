@@ -1,5 +1,5 @@
 export async function POST() {
-  const res = await fetch(`${process.env.BACK_END_URL}/users/logout`, {
+  const res = await fetch(`${process.env.BACK_END_URL}/auth/logout`, {
     method: "POST",
     credentials: "include",
   });

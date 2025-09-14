@@ -1,9 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export const useLogin = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { mutate: mutateLogin, status: statusLogin } = useMutation({
     mutationFn: async ({
@@ -31,12 +32,18 @@ export const useLogin = () => {
     onError: () => {
       toast.error("User login failed");
     },
-    onSuccess: (data: {
+    onSuccess: async (data: {
       data: { jwt: string; user: { userType: "student" | "instructor" } };
     }) => {
       const { jwt } = data?.data;
-
       localStorage.setItem("jwt", jwt);
+
+      // ✅ Force refetch immediately
+      await queryClient.refetchQueries({
+        queryKey: ["currUser"],
+        type: "active",
+      });
+
       if (data?.data?.user?.userType === "student") {
         router.push("/dashboard/student/home");
       }

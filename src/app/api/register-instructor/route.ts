@@ -2,9 +2,8 @@ export async function POST(request: Request) {
   const { name, email, password, institute, specialization, experience } =
     await request.json();
 
-  // Your intentional error setup
   const res = await fetch(
-    `${process.env.BACK_END_URL}/users/instructor/register`,
+    `${process.env.BACK_END_URL}/auth/instructor/register`,
     {
       method: "POST",
       headers: {
@@ -21,16 +20,20 @@ export async function POST(request: Request) {
     },
   );
 
-  // Return error status instead of 200
+  // Agar backend ne error bheja
   if (!res.ok) {
-    return new Response(JSON.stringify({ error: "Registration failed" }), {
-      status: 400,
+    const errorText = await res.text(); // backend ka raw error text
+    return new Response(errorText, {
+      status: res.status,
+      statusText: res.statusText,
+      headers: res.headers,
     });
   }
 
+  // Success case me backend ka exact response forward kar do
   return new Response(res.body, {
     status: res.status,
     statusText: res.statusText,
-    headers: new Headers(res.headers),
+    headers: res.headers,
   });
 }

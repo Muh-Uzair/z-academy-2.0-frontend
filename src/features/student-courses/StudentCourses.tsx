@@ -21,7 +21,7 @@ const StudentCourses: React.FC = () => {
   }
 
   return (
-    <div className="flex justify-center pb-[50px]">
+    <div className="flex justify-center pb-[12px]">
       <div className="w-full max-w-[1200px]">
         <PageHeading heading="All Courses" />
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">

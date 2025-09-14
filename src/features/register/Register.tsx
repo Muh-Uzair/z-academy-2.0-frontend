@@ -31,12 +31,7 @@ import { useRegisterInstructor } from "./useRegisterInstructor";
 const studentFromSchema = z
   .object({
     name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-    email: z
-      .string()
-      .email({ message: "Please enter a valid email address." })
-      .regex(/^[a-zA-Z0-9._%+-]+@gmail\.com$/, {
-        message: "Only Gmail addresses are allowed.",
-      }),
+    email: z.string().email({ message: "Please enter a valid email address." }),
     password: z.string().min(6, {
       message: "Password must be at least 6 characters long.",
     }),
@@ -52,12 +47,7 @@ const studentFromSchema = z
 const instructorFormSchema = z
   .object({
     name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-    email: z
-      .string()
-      .email({ message: "Please enter a valid email address." })
-      .regex(/^[a-zA-Z0-9._%+-]+@gmail\.com$/, {
-        message: "Only Gmail addresses are allowed.",
-      }),
+    email: z.string().email({ message: "Please enter a valid email address." }),
     password: z.string().min(6, {
       message: "Password must be at least 6 characters long.",
     }),

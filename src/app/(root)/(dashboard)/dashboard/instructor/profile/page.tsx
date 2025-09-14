@@ -1,12 +1,26 @@
+import InstructorProfile from "@/features/instructor-profile/InstructorProfile";
 import React from "react";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import { getInstructorProfile } from "@/services/getInstructorProfile";
 
-const page: React.FC = () => {
-  // VARS
+const Page: React.FC = async () => {
+  const queryClient = new QueryClient();
 
-  // FUNCTIONS
+  // Prefetch karo
+  await queryClient.prefetchQuery({
+    queryKey: ["instructorProfile"],
+    queryFn: getInstructorProfile,
+  });
 
-  // JSX
-  return <div>dashboard/instructor/profile</div>;
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <InstructorProfile />
+    </HydrationBoundary>
+  );
 };
 
-export default page;
+export default Page;

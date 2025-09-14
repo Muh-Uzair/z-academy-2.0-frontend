@@ -1,9 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export const useVerifyOtpInstructor = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const {
     mutate: mutateVerifyOtpInstructor,
@@ -28,10 +29,17 @@ export const useVerifyOtpInstructor = () => {
     onError: () => {
       toast.error("Verification failed");
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       const { jwt } = data?.data;
 
       localStorage.setItem("jwt", jwt);
+
+      // ✅ Force refetch currUser instead of only invalidating
+      await queryClient.refetchQueries({
+        queryKey: ["currUser"],
+        type: "active",
+      });
+
       router.push("/dashboard/instructor/home");
     },
   });
