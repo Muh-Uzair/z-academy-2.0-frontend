@@ -29,11 +29,8 @@ const VerifyOtp: React.FC = () => {
   const searchParams = useSearchParams();
   const userType = searchParams.get("userType");
 
-  console.log(userType);
-
   // FUNCTIONS
   const handleVerify = () => {
-    console.log("Hello");
     if (otp.length !== 6) return;
 
     if (userType === "instructor") {

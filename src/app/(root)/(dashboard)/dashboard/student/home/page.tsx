@@ -1,3 +1,4 @@
+import StudentHome from "@/features/student-home/StudentHome";
 import React from "react";
 
 const page: React.FC = () => {
@@ -6,7 +7,7 @@ const page: React.FC = () => {
   // FUNCTIONS
 
   // JSX
-  return <div>dashboard/student/home</div>;
+  return <StudentHome />;
 };
 
 export default page;

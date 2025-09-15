@@ -87,7 +87,6 @@ const CreateCourse: React.FC<Props> = ({
     if (readOnly && editMyCourse) {
       mutateUpdateCourse({ formData: { ...values } });
     } else {
-      console.log("Hello");
       mutateCreateCourse({
         formData: { ...values },
       });

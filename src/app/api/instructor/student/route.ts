@@ -4,8 +4,6 @@ export async function GET() {
   const cookieStore = await cookies();
   const jwt = cookieStore.get("jwt")?.value;
 
-  console.log(jwt);
-
   const res = await fetch(
     `${process.env.BACK_END_URL}/users/student/on-instructor-id`,
     {

@@ -1,3 +1,4 @@
+import InstructorHome from "@/features/instructor-home/InstructorHome";
 import React from "react";
 
 const Page: React.FC = () => {
@@ -6,7 +7,7 @@ const Page: React.FC = () => {
   // FUNCTIONS
 
   // JSX
-  return <div>dashboard/instructor/home</div>;
+  return <InstructorHome />;
 };
 
 export default Page;

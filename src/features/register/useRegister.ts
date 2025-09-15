@@ -34,7 +34,6 @@ export const useRegister = () => {
         return data;
       },
       onError: (error: unknown) => {
-        console.log(error);
         if (error instanceof Error) {
           toast.error(error.message); // ✅ backend ka actual message
         } else {

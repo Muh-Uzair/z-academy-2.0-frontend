@@ -1,7 +1,8 @@
 "use client";
 
+import { useGetStudentProfile } from "./useGetStudentProfile";
+
 import React, { useEffect, useState } from "react";
-import { useGetInstructorProfile } from "./useGetInstructorProfile";
 import ErrorScreen from "@/components/ErrorScreen";
 import LoadingScreen from "@/components/LoadingScreen";
 import PageHeading from "@/components/PageHeading";
@@ -40,7 +41,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { useUpdateINstructorProfile } from "./useUpdateInstructorProfile";
+import { useUpdateStudentProfile } from "./useUpdateStudentProfile";
 
 export const formSchema = z.object({
   name: z
@@ -52,70 +53,49 @@ export const formSchema = z.object({
     .string()
     .max(200, { message: "Bio must be under 200 characters." })
     .optional(),
-
-  institute: z
-    .string()
-    .min(2, { message: "Institute must be at least 2 characters." })
-    .max(100, { message: "Institute name too long." }),
-
-  specialization: z
-    .string()
-    .min(2, { message: "Specialization must be at least 2 characters." })
-    .max(100, { message: "Specialization name too long." }),
-
-  experience: z.number(),
 });
 
-// CMP CMP CMP
-const InstructorProfile: React.FC = () => {
+const StudentProfile: React.FC = () => {
   // VARS
-  const { dataInstructorProfile, statusInstructorProfile } =
-    useGetInstructorProfile();
-  const { mutateLogout, statusLogout } = useLogout({});
-  const instructorProfile = dataInstructorProfile?.data?.instructorProfile;
+  const { dataStudentProfile, statusStudentProfile } = useGetStudentProfile();
+  const studentProfile = dataStudentProfile?.data?.studentProfile;
   const [openLogout, setOpenLogout] = useState(false);
+  const { mutateLogout, statusLogout } = useLogout({});
   const [isEditing, setIsEditing] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       bio: "",
-      institute: "",
-      specialization: "",
-      experience: 0,
     },
   });
-  const { mutateUpdateInstructorProfile, statusUpdateInstructorProfile } =
-    useUpdateINstructorProfile({ setIsEditing });
+  const { mutateUpdateStudentProfile, statusUpdateStudentProfile } =
+    useUpdateStudentProfile({ setIsEditing });
 
   // FUNCTIONS
+
   useEffect(() => {
-    if (instructorProfile) {
+    if (studentProfile) {
       form.reset({
-        name: instructorProfile.name || "",
-        bio: instructorProfile.bio || "",
-        institute: instructorProfile.institute || "",
-        specialization: instructorProfile.specialization || "",
-        experience: instructorProfile.experience || 0,
+        name: studentProfile.name || "",
+        bio: studentProfile.bio || "",
       });
     }
-  }, [instructorProfile, form]);
-
+  }, [studentProfile, form]);
   const handleLogout = () => {
     mutateLogout();
   };
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    mutateUpdateInstructorProfile({ formData: { ...values } });
+    mutateUpdateStudentProfile({ formData: { ...values } });
   }
 
-  // JSX JSX JSX
-  if (statusInstructorProfile === "error") {
+  // JSX
+  if (statusStudentProfile === "error") {
     return <ErrorScreen />;
   }
 
-  if (statusInstructorProfile === "pending") {
+  if (statusStudentProfile === "pending") {
     return <LoadingScreen />;
   }
 
@@ -205,54 +185,9 @@ const InstructorProfile: React.FC = () => {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="institute"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Institute</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="e.g., Stanford University"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="specialization"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Specialization</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="e.g., Computer Science"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="experience"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Experience</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g., 5 years" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
 
                   <Button className="w-full" type="submit">
-                    {statusUpdateInstructorProfile === "pending" && (
+                    {statusUpdateStudentProfile === "pending" && (
                       <LoadingSpinner />
                     )}
                     Submit
@@ -268,14 +203,14 @@ const InstructorProfile: React.FC = () => {
               {/* Avatar + Name */}
               <div className="flex items-center space-x-4">
                 <div className="h-20 w-20">
-                  {instructorProfile.avatar ? (
+                  {studentProfile.avatar ? (
                     <Avatar className="h-20 w-20">
                       <AvatarImage
-                        src={instructorProfile.avatar}
-                        alt={instructorProfile.name}
+                        src={studentProfile.avatar}
+                        alt={studentProfile.name}
                       />
                       <AvatarFallback>
-                        {instructorProfile?.name?.[0] || "U"}
+                        {studentProfile?.name?.[0] || "U"}
                       </AvatarFallback>
                     </Avatar>
                   ) : (
@@ -286,15 +221,15 @@ const InstructorProfile: React.FC = () => {
                 </div>
                 <div>
                   <h2 className="text-xl font-semibold">
-                    {instructorProfile.name}
+                    {studentProfile.name}
                   </h2>
                   <p
                     className="tab:max-w-[300px] laptopM:max-w-[400px] max-w-[200px] truncate text-gray-500"
-                    title={instructorProfile.email}
+                    title={studentProfile.email}
                   >
-                    {instructorProfile.email}
+                    {studentProfile.email}
                   </p>
-                  <Badge>{instructorProfile.userType}</Badge>
+                  <Badge>{studentProfile.userType}</Badge>
                 </div>
               </div>
 
@@ -302,8 +237,8 @@ const InstructorProfile: React.FC = () => {
               <div>
                 <h3 className="text-lg font-medium">Bio</h3>
                 <p className="mt-1 text-gray-600">
-                  {instructorProfile.bio && instructorProfile.bio.trim() !== ""
-                    ? instructorProfile.bio
+                  {studentProfile.bio && studentProfile.bio.trim() !== ""
+                    ? studentProfile.bio
                     : "No bio added yet."}
                 </p>
               </div>
@@ -311,29 +246,9 @@ const InstructorProfile: React.FC = () => {
               {/* Details Grid */}
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div>
-                  <h3 className="text-lg font-medium">Institute</h3>
-                  <p className="text-gray-600">
-                    {instructorProfile.institute || "Not provided"}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-lg font-medium">Specialization</h3>
-                  <p className="text-gray-600">
-                    {instructorProfile.specialization || "Not provided"}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-lg font-medium">Experience</h3>
-                  <p className="text-gray-600">
-                    {instructorProfile.experience
-                      ? `${instructorProfile.experience} years`
-                      : "Not provided"}
-                  </p>
-                </div>
-                <div>
                   <h3 className="text-lg font-medium">Joined</h3>
                   <p className="text-gray-600">
-                    {new Date(instructorProfile.createdAt).toLocaleDateString()}
+                    {new Date(studentProfile.createdAt).toLocaleDateString()}
                   </p>
                 </div>
               </div>
@@ -345,4 +260,4 @@ const InstructorProfile: React.FC = () => {
   );
 };
 
-export default InstructorProfile;
+export default StudentProfile;

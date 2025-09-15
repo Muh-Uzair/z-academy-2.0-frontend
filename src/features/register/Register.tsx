@@ -102,9 +102,6 @@ const Register: React.FC = () => {
 
   // FUNCTION handle submission of instructor
   function onSubmitInstructor(values: z.infer<typeof instructorFormSchema>) {
-    console.log("Instructor");
-    console.log(values);
-
     const { name, email, password, institute, specialization, experience } =
       values;
 

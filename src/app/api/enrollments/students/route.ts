@@ -4,8 +4,6 @@ export async function GET() {
   const cookieStore = await cookies();
   const jwt = cookieStore.get("jwt")?.value;
 
-  console.log(jwt);
-
   // Your intentional error setup
   const res = await fetch(`${process.env.BACK_END_URL}/enrollments/student`, {
     method: "GET",

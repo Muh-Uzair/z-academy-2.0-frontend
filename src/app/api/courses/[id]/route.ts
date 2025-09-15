@@ -28,7 +28,6 @@ export async function PATCH(
 ) {
   const { id } = params;
 
-  console.log(id);
   const { formData } = await request.json();
   const cookieStore = await cookies();
   const jwt = cookieStore.get("jwt")?.value;

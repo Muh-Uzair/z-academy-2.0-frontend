@@ -1,5 +1,5 @@
 export const getInstructorStudents = async () => {
-  const res = await fetch("/api/instructor/students", {
+  const res = await fetch("/api/instructor/student", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

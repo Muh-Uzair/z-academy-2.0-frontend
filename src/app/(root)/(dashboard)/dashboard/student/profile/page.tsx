@@ -1,12 +1,26 @@
 import React from "react";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import StudentProfile from "@/features/student-profile/StudentProfile";
+import { getsStudentProfile } from "@/services/getStudentProfile";
 
-const page: React.FC = () => {
-  // VARS
+const Page: React.FC = async () => {
+  const queryClient = new QueryClient();
 
-  // FUNCTIONS
+  // Prefetch karo
+  await queryClient.prefetchQuery({
+    queryKey: ["studentProfile"],
+    queryFn: getsStudentProfile,
+  });
 
-  // JSX
-  return <div>profile</div>;
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <StudentProfile />
+    </HydrationBoundary>
+  );
 };
 
-export default page;
+export default Page;

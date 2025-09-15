@@ -1,7 +1,7 @@
 // services/getInstructorProfile.ts
-export const getInstructorProfile = async () => {
+export const getsStudentProfile = async () => {
   try {
-    const res = await fetch("/api/instructor/profile", {
+    const res = await fetch("/api/student/profile", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -11,7 +11,7 @@ export const getInstructorProfile = async () => {
 
     if (!res.ok) {
       const errorMessage = await res.text();
-      throw new Error(errorMessage || "Failed to fetch instructor profile");
+      throw new Error(errorMessage || "Failed to fetch student profile");
     }
 
     return res.json();
