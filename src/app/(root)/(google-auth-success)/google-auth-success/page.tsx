@@ -1,10 +1,10 @@
-"use client"; // if using Next.js
+"use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import LoadingScreen from "@/components/LoadingScreen";
 
-export default function Page() {
+function GoogleAuthHandler() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -14,11 +14,20 @@ export default function Page() {
 
     if (token) {
       localStorage.setItem("jwt", token);
-      router.push(`/dashboard/${userType}/home`); // redirect to dashboard
+      router.push(`/dashboard/${userType}/home`);
     } else {
       router.push("/login");
     }
   }, [router, searchParams]);
 
   return <LoadingScreen />;
+}
+
+// ✅ Wrap your logic component inside a Suspense boundary
+export default function Page() {
+  return (
+    <Suspense fallback={<LoadingScreen />}>
+      <GoogleAuthHandler />
+    </Suspense>
+  );
 }

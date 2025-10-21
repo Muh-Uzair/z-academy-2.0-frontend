@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import {
   InputOTP,
   InputOTPGroup,
@@ -16,32 +16,30 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useVerifyOtp } from "./useVerifyOtp";
+import { useVerifyOtpInstructor } from "./useVerifyOtpInstructor";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { useSearchParams } from "next/navigation";
-import { useVerifyOtpInstructor } from "./useVerifyOtpInstructor";
 
-const VerifyOtp: React.FC = () => {
-  // VARS
+// --- Component that actually uses useSearchParams ---
+function VerifyOtpInner() {
   const [otp, setOtp] = React.useState("");
   const { mutateVerifyOtp, statusVerifyOtp } = useVerifyOtp();
   const { mutateVerifyOtpInstructor, statusVerifyOtpInstructor } =
     useVerifyOtpInstructor();
+
   const searchParams = useSearchParams();
   const userType = searchParams.get("userType");
 
-  // FUNCTIONS
   const handleVerify = () => {
     if (otp.length !== 6) return;
 
     if (userType === "instructor") {
       mutateVerifyOtpInstructor({ otp: parseInt(otp) });
-    }
-    if (userType === "student") {
+    } else if (userType === "student") {
       mutateVerifyOtp({ otp: parseInt(otp) });
     }
   };
 
-  // JSX
   return (
     <div className="bg-muted/30 flex h-screen items-center justify-center p-3">
       <Card className="w-full max-w-md rounded-2xl shadow-lg">
@@ -80,6 +78,13 @@ const VerifyOtp: React.FC = () => {
       </Card>
     </div>
   );
-};
+}
 
-export default VerifyOtp;
+// --- Export default wrapped in Suspense ---
+export default function VerifyOtp() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <VerifyOtpInner />
+    </Suspense>
+  );
+}

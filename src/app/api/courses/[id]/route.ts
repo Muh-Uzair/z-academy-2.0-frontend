@@ -3,11 +3,10 @@ import { cookies } from "next/headers";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
-  const { id } = params;
+  const { id } = await params; // await required
 
-  // Forward request to backend
   const res = await fetch(`${process.env.BACK_END_URL}/courses/${id}`, {
     method: "GET",
     headers: {
@@ -24,15 +23,14 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
-  const { id } = params;
+  const { id } = await params; // await required
 
   const { formData } = await request.json();
   const cookieStore = await cookies();
   const jwt = cookieStore.get("jwt")?.value;
 
-  // Forward request to backend
   const res = await fetch(`${process.env.BACK_END_URL}/courses/${id}`, {
     method: "PATCH",
     headers: {
@@ -40,7 +38,7 @@ export async function PATCH(
       Authorization: `Bearer ${jwt}`,
     },
     body: JSON.stringify(formData),
-    credentials: "include", // important for cookies
+    credentials: "include",
   });
 
   return new Response(res.body, {
