@@ -1,5 +1,6 @@
 export async function GET() {
   // Forward request to backend
+
   const res = await fetch(`${process.env.BACK_END_URL}/courses`, {
     method: "GET",
   });

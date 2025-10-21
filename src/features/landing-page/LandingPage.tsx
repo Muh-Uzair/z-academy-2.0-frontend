@@ -1,6 +1,4 @@
 import { LandingPageHeader } from "@/components/LandingPageHeader";
-import { getCurrUser } from "@/services/getCurrUser";
-import { QueryClient } from "@tanstack/react-query";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,13 +6,8 @@ import { GraduationCap, Globe, Users, Zap } from "lucide-react";
 
 const LandingPage: React.FC = async () => {
   // VARS
-  const queryClient = new QueryClient();
 
   // FUNCTIONS
-  await queryClient.prefetchQuery({
-    queryKey: ["currUser"],
-    queryFn: getCurrUser,
-  });
 
   // JSX
   return (

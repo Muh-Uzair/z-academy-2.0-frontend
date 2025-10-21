@@ -5,6 +5,9 @@ export async function GET() {
   const jwt = cookieStore.get("jwt")?.value;
 
   // Call your Express backend
+
+  console.log(process.env.BACK_END_URL);
+
   const res = await fetch(`${process.env.BACK_END_URL}/auth/me`, {
     method: "GET",
     headers: {
@@ -12,6 +15,8 @@ export async function GET() {
       Authorization: `Bearer ${jwt}`,
     },
   });
+
+  console.log(res);
 
   // Return error status instead of 200
   if (!res.ok) {
